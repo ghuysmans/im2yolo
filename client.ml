@@ -15,6 +15,7 @@ Dom_html.(Dom_events.listen (getElementById "f") Event.submit) @@ fun _ _ ->
       | Some im -> printf "%a" Yolo.pp (Imagemap.to_yolo im));
     dl##.href := Js.string ("data:text/plain;base64," ^
       B64.encode (Format.flush_str_formatter ()));
+    dl##click;
     false
   | _ ->
     failwith "missing HTML element"
