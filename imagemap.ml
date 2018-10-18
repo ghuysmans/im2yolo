@@ -1,11 +1,14 @@
 type t = {x: int; y: int; x': int; y': int}
 
+let regexp = Re.Pcre.regexp
+let regexp_string s = Re.Pcre.(regexp (quote s))
+
 let parse s =
   try
-    ignore (Str.(search_forward (regexp {|^<area |}) s 0));
-    ignore (Str.(search_forward (regexp_string {| shape="rect"|}) s 0));
-    ignore (Str.(search_forward (regexp {| coords="\([^"]*\)"|}) s 0));
-    Str.(split (regexp_string ",") (matched_group 1 s)) |>
+    ignore (Re.exec (regexp {|^<area |}) s);
+    ignore (Re.exec (regexp_string {| shape="rect"|}) s);
+    let g = Re.exec (regexp {| coords="([^"]*)"|}) s in
+    Re.split (regexp_string ",") (Re.get g 1) |>
     List.map int_of_string |> function
       | [x; y; x'; y'] -> Some {x; y; x'; y'}
       | _ -> None
