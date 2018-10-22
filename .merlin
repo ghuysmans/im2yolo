@@ -1,4 +1,5 @@
 B _build/
 PKG js_of_ocaml.ppx
-PKG re
-PKG base64
+PKG ppx_deriving_yojson
+PKG cohttp-lwt-unix
+PKG lwt.ppx
